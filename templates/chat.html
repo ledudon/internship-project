@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>学習支援アプリ - チャット</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/script.js" defer></script>
+    <!-- ライブラリ読み込み -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+<body>
+    <h1>学習支援AIアプリ：チャット</h1>
+    <div id="chatArea" class="chat"></div>
+    <form id="chatForm">
+        <input type="text" name="message" placeholder="メッセージを入力">
+        <button type="submit">送信</button>
+        <!-- 追加ボタン -->
+        <button type="button" id="nextBtn">next</button>
+        <button type="button" id="endBtn">end</button>
+    </form>
+</body>
+</html>

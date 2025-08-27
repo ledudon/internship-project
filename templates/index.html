@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head> <meta charset="UTF-8">
-    <title>私のウェブページ</title>
-    <link rel="stylesheet" href="style.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学習支援アプリ - 設定</title>
 </head>
 <body>
-    <h1>こんにちは！</h1>
-    <p>これは私の最初のウェブページです</p>
-    <button onclick="sayHello()">クリックしてね</button>
-    <div id="message"></div> <script src="script.js"></script>
+    <!-- 初期メッセージを表示 -->
+    <h1>対話型学習支援アプリ</h1>
+
+    <form method="post" action="/start">
+        <label>学習ジャンル:</label>
+        <select name="subject">
+            {% for i in range(subjects |length) %}
+            <option value="{{ i }}">{{ subjects[i] }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label>学習レベル:</label>
+        <select name="level">
+            {% for i in range(levels |length) %}
+            <option value="{{ i }}">{{ levels[i] }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button type="submit">開始</button>
+    </form>
+
 </body>
 </html>

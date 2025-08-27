@@ -1,10 +1,58 @@
 """
-chatgpt_stateless.py - ChatGPT一問一答アプリ
+learning_console_app.py - ChatGPT一問一答アプリ
 
 Description:
     OpenAI API を使って、ステートレスに一問一答するスクリプト。
     ユーザーが入力した質問に対して、ChatGPTが応答を返します。
-    ステートフルなので、会話の履歴は保持しません。
+"""
+
+"""
+### 問題出題時
+{{
+    "type": "question",
+    "question_number": 問題番号,
+    "question_text": "問題文をここに記載",
+    "options": [
+        {"number": 1, "text": "選択肢1"},
+        {"number": 2, "text": "選択肢2"},
+        {"number": 3, "text": "選択肢3"},
+        {"number": 4, "text": "選択肢4"},
+        {"number": 5, "text": "選択肢5"}
+    ],
+    "correct_answer": 正解の選択肢番号
+}}
+
+### 解答評価時
+{{
+    "type": "evaluation",
+    "result": "正解",
+    "explanation": "解説文をここに記載"
+}}
+
+### 学習分析時
+{{
+    "type": "analysis",
+    "statics": {{
+        "accuracy_rate": "正答率%",
+        "total_questions": 総問題数,
+        "correnct_answers": 正答数
+    }},
+    "overall_evaluation": "総合評価文",
+    "strength": [
+        "良い点1",
+        "良い点2"
+    ],
+    "improvements": [
+        "改善点1",
+        "改善点2"
+    ],
+    "adviece": "具体的な学習提案"
+}}
+
+## 重要事項
+常に学習者の理解促進を重視し、建設的で励ましのトーンで回答してください。
+会話の流れを記憶し、学習者の進捗を把握して適切にサポートしてください。
+必ずJSON形式で回答し、他のテキストは一切含めないでください。
 """
 # ── 標準／サードパーティライブラリのインポート ────────────────
 import os              # OpenAIのAPIキーを取得するために使用する
@@ -57,19 +105,61 @@ PROMPT_TEMPLATE = """
  を表示し、一連のプロセスを終了する。 
 
 ## 出力形式
+必ず、以下の形式に則って出力してください。
 チャット上でテキストとして出題、判定、解説を行ってください。
-また、出題は以下の形式で行ってください
-問題：(問題文)
-１．選択肢1
-２．選択肢2
-３．選択肢3
-４．選択肢4
-５．選択肢5
+数式を出力する場合は、Markdown形式で記述してください。
+### 問題出題時
+{{
+    "type": "question",
+    "question_number": 問題番号,
+    "question_text": "問題文をここに記載",
+    "options": [
+        "選択肢1",
+        "選択肢2",
+        "選択肢3",
+        "選択肢4",
+        "選択肢5"
+    ],
+    "correct_answer": 正解の選択肢番号
+}}
+
+### 解答評価時
+{{
+    "type": "evaluation",
+    "result": "正解",
+    "explanation": "解説文をここに記載"
+}}
+
+### 学習分析時
+{{
+    "type": "analysis",
+    "statics": {{
+        "accuracy_rate": "正答率%",
+        "total_questions": 総問題数,
+        "correnct_answers": 正答数
+    }},
+    "overall_evaluation": "総合評価文",
+    "strength": [
+        "良い点1",
+        "良い点2"
+    ],
+    "improvements": [
+        "改善点1",
+        "改善点2"
+    ],
+    "adviece": "具体的な学習提案"
+}}
+
+## 重要事項
+常に学習者の理解促進を重視し、建設的で励ましのトーンで回答してください。
+会話の流れを記憶し、学習者の進捗を把握して適切にサポートしてください。
+必ずJSON形式で回答し、他のテキストは一切含めないでください。
+
 """
 
 messages = []
-subjects = ["数学", "英語", "理科"]
-difficulties = [
+SUBJECTS = ["数学", "英語", "理科"]
+LEVELS = [
     "初学者に向けた、基本的な知識を問う問題", 
     "一般的な中学生が正答できる問題", 
     "一般的な高校生が正答できる問題", 
@@ -95,7 +185,6 @@ def chat_once(message: str) -> str:
 
     # choices[0] に応答が入っているので中身を取り出して返す
     bot_reply = resp.choices[0].message.content
-    print(resp)
     messages.append({"role": "assistant", "content": bot_reply})
     return bot_reply
 
@@ -115,7 +204,7 @@ def main():
         print("入力が不正です。")
         return
 
-    SYSTEM_PROMPT = PROMPT_TEMPLATE.format(SUBJECT=subjects[subject_index], LEVEL=difficulties[level_index])
+    SYSTEM_PROMPT = PROMPT_TEMPLATE.format(SUBJECT=SUBJECTS[subject_index], LEVEL=LEVELS[level_index])
     messages.append({"role": "system", "content": SYSTEM_PROMPT})
     
     q_count: int = 0
