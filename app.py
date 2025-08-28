@@ -27,9 +27,15 @@ def start():
     system_prompt = lca.PROMPT_TEMPLATE.format(SUBJECT=subject, LEVEL=level)
     lca.messages.clear()
     lca.messages.append({"role": "system", "content": system_prompt})
+    lca.messages.append({"role": "user", "content": "next"})
 
-    return render_template('chat.html')
+    return render_template(
+        'chat.html',
+        subject=subject,
+        level=level
+    )
 
+isFirstMessage = True
 @app.route('/api/message', methods=['POST'])
 def api_message():
     """
@@ -40,6 +46,7 @@ def api_message():
     user_msg = data.get('message', '').strip()
     bot_reply = lca.chat_once(user_msg)
     print(bot_reply)
+    bot_reply = bot_reply.replace('\\', '\\\\')
     return jsonify({'reply': bot_reply})
 
 if __name__ == '__main__':

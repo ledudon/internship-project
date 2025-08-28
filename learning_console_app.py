@@ -87,7 +87,7 @@ PROMPT_TEMPLATE = """
 ## プロセス
 以下の処理を順に行ってください
 １．{SUBJECT}に関する{LEVEL}に応じた問題と、正答を含む回答の５つの選択肢を考える
-２．考えた問題に対する解答が考えた選択肢の中に含まれているかをチェックする。もしなかった場合１に戻る。
+２．考えた問題をあなた自身で解いてみて、正しい答えが考えた選択肢の中に含まれているかをチェックする。もしなかった場合１に戻る。
 ３．考えた問題と選択肢を学生(ユーザー)に出題する
 ４．学生(ユーザー)からの回答番号を受け取る
 ５．学生(ユーザー)の回答と問題の解答が一致しているかを判定し、問題の解説を提示する。
@@ -123,6 +123,21 @@ PROMPT_TEMPLATE = """
     "correct_answer": 正解の選択肢番号
 }}
 
+### 問題例
+{{
+    "type": "question",
+    "question_number": 1,
+    "question_text": "次の関数の極限を求めよ: \(\lim_{{x \to 0}} \frac{{\sin x}}{{x}}\)",
+    "options": [
+        "1",
+        "0",
+        "-1",
+        "無限大",
+        "存在しない"
+    ],
+    "correct_answer": 2
+}}
+
 ### 解答評価時
 {{
     "type": "evaluation",
@@ -136,7 +151,7 @@ PROMPT_TEMPLATE = """
     "statics": {{
         "accuracy_rate": "正答率%",
         "total_questions": 総問題数,
-        "correnct_answers": 正答数
+        "correct_answers": 正答数
     }},
     "overall_evaluation": "総合評価文",
     "strength": [
@@ -154,6 +169,7 @@ PROMPT_TEMPLATE = """
 常に学習者の理解促進を重視し、建設的で励ましのトーンで回答してください。
 会話の流れを記憶し、学習者の進捗を把握して適切にサポートしてください。
 必ずJSON形式で回答し、他のテキストは一切含めないでください。
+20問以上出題した場合、学習分析時の出力を行い終了してください。
 
 """
 
@@ -177,9 +193,9 @@ def chat_once(message: str) -> str:
 
     # ChatGPT に投げる payload（ペイロード）を作成
     resp = client.chat.completions.create(
-        model="o4-mini-2025-04-16",
+        model="gpt-4o",
         messages=messages,
-        reasoning_effort="low",
+        temperature=0.7,
         # temperature, max_tokens は省略可（デフォルト値を使う）
     )
 

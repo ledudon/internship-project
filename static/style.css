@@ -2,30 +2,28 @@
 body {
     display: flex;
     flex-direction: column;
-    font-family: Arial, sans-serif;
-    background-color: lightblue;
+    font-family: Arial, sans-serif, ;
+    background-color: rgb(196, 223, 232);
     padding: 20px;
 }
-
+.line{
+    border-bottom: 5px solid #000000;
+}
 .chat {
     margin-bottom: 10px;
 }
-
 form {
     margin-top: 20px;
 }
-
 h1 {
     color: darkblue;
     font-size: 2em;
 }
-
 input[type="text"] {
     width: 80%;
     padding: 8px;
     box-sizing: border-box;
 }
-
 button {
     background-color: orange;
     color: white;
@@ -35,15 +33,18 @@ button {
     font-size: 1.2em;
     cursor: pointer;
 }
-
 button:hover {
     background-color: darkorange;
 }
-
 #chatArea {
-    color: red;
+    background: white;
+    flex: 1;
+    overflow-y: auto;
+    color: rgb(24, 199, 24);
+    border-radius: 15px;
+    border: 1px solid #000000;
+    font-size: 1.2em;
 }
-
 #chatForm {
     color: blue;
     display: flex;
@@ -51,9 +52,52 @@ button:hover {
     position: sticky;
     bottom: 0;
 }
-
 #message {
     margin-top: 20px;
     font-size: 1.1em;
     color: green;
+}
+#options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start; /* 左寄せ */
+}
+button.option{
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+
+  /* 左寄せにする */
+  text-align: left;        /* テキスト左寄せ */
+  justify-content: flex-start; /* flex対応 */
+  display: flex;           /* 内部のテキストをflexで整列 */
+
+  width: 66vw;             /* 画面幅の2/3 */
+  max-width: 66%;          /* スマホなどでも収まる */
+  box-sizing: border-box;
+}
+button.option.selected{
+  background-color: #c6ce2d; /* 選択時の色 */
+  color: rgb(255, 255, 255);    
+  border: 2px solid #c6ce2d;
+}
+button.option.not-selected{
+  background: #eeeeee46;
+  cursor: not-allowed;
+}
+#overlay{
+    /* 画面全体を覆う */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999; /* 最前面に表示 */
+
+    /* ポインターイベントをすべて受け止める */
+    pointer-events: all;
 }
