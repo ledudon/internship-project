@@ -98,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             goHome.appendChild(btn);
         }
+        
         chatArea.scrollTop = chatArea.scrollHeight;
 
         // KaTeXレンダリング（新しく追加された部分だけ対象にする）
@@ -107,10 +108,9 @@ document.addEventListener('DOMContentLoaded', () => {
             {left: "$", right: "$", display: false}
             ]
         });
+        // 操作を許可
+        overlay.style.display = "none";
       });
-
-      // 操作を許可
-      overlay.style.display = "none";
   }
   // 送信ボタンの押下イベント
   form.addEventListener('submit', (e) => {
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
   optBtns.forEach((btn, i) => {
     btn.addEventListener('click', () => {
       // 全ボタンを無効化し、選択されたボタンを強調表示 
-      document.querySelectorAll(".option").forEach(b => {
+      optBtns.forEach(b => {
         b.disabled = true
         b.classList.add("not-selected");
       });

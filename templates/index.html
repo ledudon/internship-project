@@ -3,28 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        
+    </script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif, ;
+            padding: 20px;
+        }
+        #title{
+            background-color: rgb(166, 224, 244);
+        }
+        #start{
+            background-color: orange;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+        #start:hover{
+            background-color: darkorange;
+        }
+    </style>
     <title>学習支援アプリ - 設定</title>
 </head>
 <body>
     <!-- 初期メッセージを表示 -->
-    <h1>対話型学習支援アプリ</h1>
+    <h1 id="title">対話型学習支援アプリ</h1>
 
     <form method="post" action="/start">
-        <label>学習ジャンル:</label>
+        <h3>学習ジャンル:</h3>
         <select name="subject">
             {% for i in range(subjects |length) %}
             <option value="{{ i }}">{{ subjects[i] }}</option>
             {% endfor %}
         </select>
         <br><br>
-        <label>学習レベル:</label>
+        <h3>学習レベル:</h3>
         <select name="level">
             {% for i in range(levels |length) %}
             <option value="{{ i }}">{{ levels[i] }}</option>
             {% endfor %}
         </select>
         <br><br>
-        <button type="submit">開始</button>
+        <button id="start" type="submit">開始</button>
     </form>
 
 </body>
