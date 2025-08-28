@@ -101,13 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         chatArea.scrollTop = chatArea.scrollHeight;
 
-        // KaTeXレンダリング（新しく追加された部分だけ対象にする）
-        renderMathInElement(chatArea, {
-            delimiters: [
-            {left: "$$", right: "$$", display: true},
-            {left: "$", right: "$", display: false}
-            ]
-        });
+        // 数式に対応
+        MathJax.typesetPromise();
+
         // 操作を許可
         overlay.style.display = "none";
       });

@@ -6,61 +6,13 @@ Description:
     ユーザーが入力した質問に対して、ChatGPTが応答を返します。
 """
 
-"""
-### 問題出題時
-{{
-    "type": "question",
-    "question_number": 問題番号,
-    "question_text": "問題文をここに記載",
-    "options": [
-        {"number": 1, "text": "選択肢1"},
-        {"number": 2, "text": "選択肢2"},
-        {"number": 3, "text": "選択肢3"},
-        {"number": 4, "text": "選択肢4"},
-        {"number": 5, "text": "選択肢5"}
-    ],
-    "correct_answer": 正解の選択肢番号
-}}
-
-### 解答評価時
-{{
-    "type": "evaluation",
-    "result": "正解",
-    "explanation": "解説文をここに記載"
-}}
-
-### 学習分析時
-{{
-    "type": "analysis",
-    "statics": {{
-        "accuracy_rate": "正答率%",
-        "total_questions": 総問題数,
-        "correnct_answers": 正答数
-    }},
-    "overall_evaluation": "総合評価文",
-    "strength": [
-        "良い点1",
-        "良い点2"
-    ],
-    "improvements": [
-        "改善点1",
-        "改善点2"
-    ],
-    "adviece": "具体的な学習提案"
-}}
-
-## 重要事項
-常に学習者の理解促進を重視し、建設的で励ましのトーンで回答してください。
-会話の流れを記憶し、学習者の進捗を把握して適切にサポートしてください。
-必ずJSON形式で回答し、他のテキストは一切含めないでください。
-"""
 # ── 標準／サードパーティライブラリのインポート ────────────────
 import os              # OpenAIのAPIキーを取得するために使用する
 from openai import OpenAI  # OpenAI APIクライアント
 
 # ── プロンプトの設定 ───────────────────────────────────
 PROMPT_TEMPLATE = """
-# 問題の出題と回答の評価 
+# 問題の出題と回答の評価
 
 ## 役割設定
 あなたは{SUBJECT}を専攻する大学教授です。学生(ユーザー)が自分の知識や思考を確認し、
@@ -107,7 +59,7 @@ PROMPT_TEMPLATE = """
 ## 出力形式
 必ず、以下の形式に則って出力してください。
 チャット上でテキストとして出題、判定、解説を行ってください。
-数式を出力する場合は、Markdown形式で記述してください。
+数式を出力する際はLaTeXでレンダリングできるようにしてください
 ### 問題出題時
 {{
     "type": "question",
